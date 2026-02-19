@@ -18,7 +18,7 @@ function App() {
     localStorage.setItem("diaryEntries", JSON.stringify(entries))
   }, [entries])
 
-  // adds a new entry to the state + generates uuid and current date
+  //adds a new entry to the state + generates uuid and current date
   const addEntry = (title, content) => {
     const newEntry = {
       id: crypto.randomUUID(),
@@ -30,6 +30,11 @@ function App() {
     setIsCreating(false) //hide form after saving
   }
 
+  //deletes an entry by id + uses filter to return a new array (immutable update)
+  const deleteEntry = (id) => {
+    setEntries((prevEntries) => prevEntries.filter((entry) => entry.id !== id))
+  }
+
   return (
     <div className='min-h-screen bg-base-200'>
 
@@ -37,7 +42,7 @@ function App() {
 
       {isCreating && (<NewEntryForm addEntry={addEntry} onCancel={() => setIsCreating(false)} />)}
 
-      <Home entries={entries} />
+      <Home entries={entries} deleteEntry={deleteEntry} />
     </div>
   )
 }
