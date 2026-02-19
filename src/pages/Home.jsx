@@ -1,7 +1,7 @@
 import { useState } from "react"
 import DiaryEntry from '../components/DiaryEntry'
 
-function Home ({ entries, deleteEntry, onEdit }) {
+function Home ({ entries, requestDelete, onEdit }) {
   // stores the current search input value
   const [searchTerm, setSearchTerm] = useState("")
 
@@ -33,7 +33,7 @@ function Home ({ entries, deleteEntry, onEdit }) {
       {filteredEntries.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredEntries.map((entry) => (
-            <DiaryEntry key={entry.id} entry={entry} deleteEntry={deleteEntry} onEdit={onEdit} />
+            <DiaryEntry key={entry.id} entry={entry} requestDelete={requestDelete} onEdit={onEdit} />
           ))}
         </div>
       )}

@@ -11,6 +11,9 @@ function App() {
     return storedEntries ? JSON.parse(storedEntries) : []
   })
 
+  //stores the entry pending deletion
+  const [entryToDelete, setEntryToDelete] = useState(null)
+
   //controls forms visibility
   const [isCreating, setIsCreating] = useState(false)
 
@@ -59,7 +62,12 @@ function App() {
 
   //deletes an entry by id
   const deleteEntry = (id) => {
-    setEntries((prevEntries) => prevEntries.filter((entry) => entry.id !== id))
+    setEntries((prev) => prev.filter((entry) => entry.id !== id))
+  }
+
+  //stores selected entry before confirming deletion
+  const requestDelete = (entry) => {
+    setEntryToDelete(entry)
   }
 
   return (
@@ -83,7 +91,21 @@ function App() {
             </div>
           </div>
         )}
-        <Home entries={entries} deleteEntry={deleteEntry} onEdit={(entry) => {setEditingEntry(entry); setIsCreating(true);}} />
+
+        {entryToDelete && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setEntryToDelete(null)}>
+            <div className="bg-base-100 rounded-lg shadow-lx w-full max-w-md mx-4 p-6" onClick={(e) => e.stopPropagation()}>
+              <h2 className="text-lg font-semibold">Confirm Deletion</h2>
+              <p className="mt-3 text-sm opacity-80">Are you sure? This action cannot be undone.</p>
+            </div>
+            <div className="mt-6 flex justify-end gap-3">
+              <button className="btn btn-outline" onClick={() => setEntryToDelete(null)}>Cancel</button>
+              <button className="btn btn-error" onClick={() => {deleteEntry(entryToDelete.id); setEntryToDelete(null);}}>Delete</button>
+            </div>
+          </div>
+        )}
+
+        <Home entries={entries} requestDelete={requestDelete} onEdit={(entry) => {setEditingEntry(entry); setIsCreating(true);}} />
       </main>
 
       <Footer />
