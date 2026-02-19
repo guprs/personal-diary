@@ -1,28 +1,24 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Header from "./components/Header"
 import Home from "./pages/Home"
 import NewEntryForm from "./components/NewEntryForm"
 
 function App() {
-  //main state that stores all diary entries
-  const [entries, setEntries] = useState([
-    {
-      id: crypto.randomUUID(),
-      title: "Welcome to your Diary!",
-      content: "Start writing your daily thoughts and reflections.",
-      date: new Date().toISOString().split("T")[0],
-    },
-  ])
+  //initialize entries from localStorage + uses lazy initialization to avoid reading storage on every render
+  const [entries, setEntries] = useState(() => {
+    const storedEntries = localStorage.getItem("diaryEntries")
+    return storedEntries ? JSON.parse(storedEntries) : []
+  })
 
-  //control whether the form is visible
+  //controls forms visibility
   const [isCreating, setIsCreating] = useState(false)
 
-  /*
-   * adds a new diary entry to the state
-   * receives title and content from the form
-   * generates unique id and current date
-   * updates the entries array immutably
-   */
+  //sync entries state with localStorage + runs every time entries change
+  useEffect(() => {
+    localStorage.setItem("diaryEntries", JSON.stringify(entries))
+  }, [entries])
+
+  // adds a new entry to the state + generates uuid and current date
   const addEntry = (title, content) => {
     const newEntry = {
       id: crypto.randomUUID(),
