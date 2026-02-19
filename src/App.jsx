@@ -1,27 +1,46 @@
 import { useState } from "react"
 import Header from "./components/Header"
 import Home from "./pages/Home"
+import NewEntryForm from "./components/NewEntryForm"
 
 function App() {
-
-  const [entries, setentries] = useState([
+  //main state that stores all diary entries
+  const [entries, setEntries] = useState([
     {
-      id: 1,
-      title: "First Day Using My Diary",
-      content: "Today I started building my personal diary project using React and Tailwind.",
-      date: "2026-02-18",
+      id: crypto.randomUUID(),
+      title: "Welcome to your Diary!",
+      content: "Start writing your daily thoughts and reflections.",
+      date: new Date().toISOString().split("T")[0],
     },
-    {
-      id: 2,
-      title: "Learning React State",
-      content: "Understanding how useState works and how to strucutre components properly.",
-      date: "2026-02-19",
-    }
   ])
+
+  //control whether the form is visible
+  const [isCreating, setIsCreating] = useState(false)
+
+  /*
+   * adds a new diary entry to the state
+   * receives title and content from the form
+   * generates unique id and current date
+   * updates the entries array immutably
+   */
+  const addEntry = (title, content) => {
+    const newEntry = {
+      id: crypto.randomUUID(),
+      title,
+      content,
+      date: new Date().toISOString().split("T")[0],
+    }
+    setEntries((prevEntries) => [newEntry, ...prevEntries])
+    setIsCreating(false) //hide form after saving
+  }
 
   return (
     <div className='min-h-screen bg-base-200'>
-      <Header />
+
+      <Header onNewClick={() => setIsCreating(true)} />
+
+      {isCreating && (<NewEntryForm addEntry={addEntry} onCancel={() => setIsCreating(false)} />)}
+
       <Home entries={entries} />
     </div>
   )

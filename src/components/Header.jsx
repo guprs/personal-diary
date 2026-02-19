@@ -1,7 +1,7 @@
 import React from 'react'
 
-const Header = () => {
-  return (
+function Header({ onNewClick }) {
+    return (
         <header className='bg-primary text-primary-content'>
             <div className='max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-5'>
 
@@ -10,11 +10,12 @@ const Header = () => {
                     <p className='text-sm sm:text-base'>Your personal space to write daily thoughts.</p>
                 </div>
 
-                <button className='btn btn-sm sm:btn-md btn-secondary'>New Entry</button>
+                {/* triggers form visibility in app */}
+                <button className='btn btn-sm sm:btn-md btn-secondary' onClick={onNewClick}>New Entry</button>
 
             </div>
         </header>
-  )
+    )
 }
 
 export default Header
