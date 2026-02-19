@@ -1,5 +1,3 @@
-import React from 'react'
-
 function Header({ onNewClick, toggleTheme, theme }) {
     return (
         <header className='bg-primary text-primary-content'>

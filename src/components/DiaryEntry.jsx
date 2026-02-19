@@ -1,6 +1,4 @@
-import React from 'react'
-
-const DiaryEntry = ({ entry, deleteEntry, onEdit }) => {
+function DiaryEntry({ entry, deleteEntry, onEdit }) {
     return (
         <div className='card bg-base-100 shadow-md hover:shadow-lg transition-shadow relative'>
             <div className='card-body'>
