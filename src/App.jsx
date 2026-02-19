@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import Header from "./components/Header"
 import Home from "./pages/Home"
+import Footer from "./components/Footer"
 import NewEntryForm from "./components/NewEntryForm"
 
 function App() {
@@ -62,27 +63,30 @@ function App() {
   }
 
   return (
-    <div className='min-h-screen bg-base-200'>
+    <div className='min-h-screen flex flex-col bg-base-200'>
 
       <Header onNewClick={() => {setEditingEntry(null); setIsCreating(true)}} toggleTheme={toggleTheme} theme={theme} />
 
-      {isCreating && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => {setEditingEntry(null); setIsCreating(false)}}>
+      <main className="flex-grow">
+        {isCreating && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => {setEditingEntry(null); setIsCreating(false)}}>
 
-          {/*modal container*/}
-          <div className="bg-base-100 rounded-lg shadow-xl w-full max-w-lg mx-4 p-6 transform transition-all duration-300 scale-100" onClick={(e) => {
-            e.stopPropagation()
-          }}> {/*prevent closing when clicking inside modal*/}
+            {/*modal container*/}
+            <div className="bg-base-100 rounded-lg shadow-xl w-full max-w-lg mx-4 p-6 transform transition-all duration-300 scale-100" onClick={(e) => {
+              e.stopPropagation()
+            }}> {/*prevent closing when clicking inside modal*/}
 
-            {/*close button*/}
-            <button className="btn btn-sm btn-circle btn-ghost absolute top-3 right-3" onClick={() => {setEditingEntry(null); setIsCreating(false);}}>X</button>
+              {/*close button*/}
+              <button className="btn btn-sm btn-circle btn-ghost absolute top-3 right-3" onClick={() => {setEditingEntry(null); setIsCreating(false);}}>X</button>
 
-          <NewEntryForm addEntry={addEntry} updateEntry={updateEntry} editingEntry={editingEntry} onCancel={() => {setEditingEntry(null); setIsCreating(false);}} />
+            <NewEntryForm addEntry={addEntry} updateEntry={updateEntry} editingEntry={editingEntry} onCancel={() => {setEditingEntry(null); setIsCreating(false);}} />
+            </div>
           </div>
-        </div>
-      )}
-      <Home entries={entries} deleteEntry={deleteEntry} onEdit={(entry) => {setEditingEntry(entry); setIsCreating(true);}} />
+        )}
+        <Home entries={entries} deleteEntry={deleteEntry} onEdit={(entry) => {setEditingEntry(entry); setIsCreating(true);}} />
+      </main>
 
+      <Footer />
     </div>
   )
 }

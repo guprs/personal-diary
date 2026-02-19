@@ -18,7 +18,7 @@ function NewEntryForm({ addEntry, updateEntry, editingEntry, onCancel}) {
      * handles form submission + switches between create and edit mode
      * resets input fields
      */
-    function handleSubmit(e) {
+    const handleSubmit = (e) => {
 
         console.log("editingEntry:", editingEntry)
         e.preventDefault()

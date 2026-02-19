@@ -1,7 +1,7 @@
 import { useState } from "react"
 import DiaryEntry from '../components/DiaryEntry'
 
-const Home = ({ entries, deleteEntry, onEdit }) => {
+function Home ({ entries, deleteEntry, onEdit }) {
   // stores the current search input value
   const [searchTerm, setSearchTerm] = useState("")
 
