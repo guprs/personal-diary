@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Header({ onNewClick }) {
+function Header({ onNewClick, toggleTheme, theme }) {
     return (
         <header className='bg-primary text-primary-content'>
             <div className='max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-5'>
@@ -10,9 +10,18 @@ function Header({ onNewClick }) {
                     <p className='text-sm sm:text-base'>Your personal space to write daily thoughts.</p>
                 </div>
 
-                {/* triggers form visibility in app */}
-                <button className='btn btn-sm sm:btn-md btn-secondary' onClick={onNewClick}>New Entry</button>
+                <div className='flex gap-3'>
 
+                    {/*theme toggle switch*/}
+                    <label className='flex items-center gap-2 cursor-pointer'>
+                        <span className='text-sm'>{theme === "light" ? "Light Mode ☀️" : "Dark Mode 🌙" }</span>
+                        <input className='toggle toggle-sm' type='checkbox' checked={theme === "dark"} onChange={toggleTheme} />
+                    </label>
+
+                    {/* triggers form visibility in app */}
+                    <button className='btn btn-sm sm:btn-md btn-secondary' onClick={onNewClick}>New Entry</button>
+
+                </div>
             </div>
         </header>
     )

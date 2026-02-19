@@ -10,11 +10,28 @@ function App() {
     return storedEntries ? JSON.parse(storedEntries) : []
   })
 
-  //stores the entry currently being edited
-  const [editingEntry, setEditingEntry] = useState(null)
-
+  
   //controls forms visibility
   const [isCreating, setIsCreating] = useState(false)
+  
+  //stores the entry currently being edited
+  const [editingEntry, setEditingEntry] = useState(null)
+  
+  //initialize theme from localStorage + defaults to light theme if not previously set
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem("theme") || "light"
+  })
+
+  //apply theme to root element and persist preference
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme)
+    localStorage.setItem("theme", theme)
+  }, [theme])
+
+  //toggle between light and dark themes
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"))
+  }
 
   //sync entries state with localStorage + runs every time entries change
   useEffect(() => {
@@ -48,7 +65,7 @@ function App() {
   return (
     <div className='min-h-screen bg-base-200'>
 
-      <Header onNewClick={() => setIsCreating(true)} />
+      <Header onNewClick={() => {setEditingEntry(null); setIsCreating(true)}} toggleTheme={toggleTheme} theme={theme} />
 
       {isCreating && (<NewEntryForm addEntry={addEntry} updateEntry={updateEntry} editingEntry={editingEntry} onCancel={() => {setEditingEntry(null); setIsCreating(false);}} />)}
 
