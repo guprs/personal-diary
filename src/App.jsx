@@ -4,11 +4,14 @@ import Home from "./pages/Home"
 import NewEntryForm from "./components/NewEntryForm"
 
 function App() {
-  //initialize entries from localStorage + uses lazy initialization to avoid reading storage on every render
+  //initialize entries from localStorage
   const [entries, setEntries] = useState(() => {
     const storedEntries = localStorage.getItem("diaryEntries")
     return storedEntries ? JSON.parse(storedEntries) : []
   })
+
+  //stores the entry currently being edited
+  const [editingEntry, setEditingEntry] = useState(null)
 
   //controls forms visibility
   const [isCreating, setIsCreating] = useState(false)
@@ -18,7 +21,7 @@ function App() {
     localStorage.setItem("diaryEntries", JSON.stringify(entries))
   }, [entries])
 
-  //adds a new entry to the state + generates uuid and current date
+  //adds a new entry to the state
   const addEntry = (title, content) => {
     const newEntry = {
       id: crypto.randomUUID(),
@@ -30,7 +33,14 @@ function App() {
     setIsCreating(false) //hide form after saving
   }
 
-  //deletes an entry by id + uses filter to return a new array (immutable update)
+  //update an existing entry + uses map to immutably replace the matching entry
+  const updateEntry = (updateEntry) => {
+    setEntries((prev) => prev.map((entry) => entry.id === updateEntry.id ? updateEntry : entry))
+    setEditingEntry(null)
+    setIsCreating(false)
+  }
+
+  //deletes an entry by id
   const deleteEntry = (id) => {
     setEntries((prevEntries) => prevEntries.filter((entry) => entry.id !== id))
   }
@@ -40,9 +50,9 @@ function App() {
 
       <Header onNewClick={() => setIsCreating(true)} />
 
-      {isCreating && (<NewEntryForm addEntry={addEntry} onCancel={() => setIsCreating(false)} />)}
+      {isCreating && (<NewEntryForm addEntry={addEntry} updateEntry={updateEntry} editingEntry={editingEntry} onCancel={() => {setEditingEntry(null); setIsCreating(false);}} />)}
 
-      <Home entries={entries} deleteEntry={deleteEntry} />
+      <Home entries={entries} deleteEntry={deleteEntry} onEdit={(entry) => {setEditingEntry(entry); setIsCreating(true);}} />
     </div>
   )
 }

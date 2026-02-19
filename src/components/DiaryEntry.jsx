@@ -1,11 +1,13 @@
 import React from 'react'
 
-const DiaryEntry = ({ entry, deleteEntry }) => {
+const DiaryEntry = ({ entry, deleteEntry, onEdit }) => {
     return (
         <div className='card bg-base-100 shadow-md hover:shadow-lg transition-shadow relative'>
             <div className='card-body'>
 
                 <button className='btn btn-xs btn-error absolute top-3 right-3' onClick={() => deleteEntry(entry.id)}>X</button>
+
+                <button className='btn btn-xs btn-outline absolute top-3 right-10' onClick={() => onEdit(entry)} >Edit</button>
 
                 <h2 className='card-titles text-lg sm:text-xl'>{entry.title}</h2>
 
