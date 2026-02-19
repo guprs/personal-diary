@@ -10,13 +10,12 @@ function App() {
     return storedEntries ? JSON.parse(storedEntries) : []
   })
 
-  
   //controls forms visibility
   const [isCreating, setIsCreating] = useState(false)
-  
+
   //stores the entry currently being edited
   const [editingEntry, setEditingEntry] = useState(null)
-  
+
   //initialize theme from localStorage + defaults to light theme if not previously set
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem("theme") || "light"
@@ -67,9 +66,23 @@ function App() {
 
       <Header onNewClick={() => {setEditingEntry(null); setIsCreating(true)}} toggleTheme={toggleTheme} theme={theme} />
 
-      {isCreating && (<NewEntryForm addEntry={addEntry} updateEntry={updateEntry} editingEntry={editingEntry} onCancel={() => {setEditingEntry(null); setIsCreating(false);}} />)}
+      {isCreating && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => {setEditingEntry(null); setIsCreating(false)}}>
 
+          {/*modal container*/}
+          <div className="bg-base-100 rounded-lg shadow-xl w-full max-w-lg mx-4 p-6 transform transition-all duration-300 scale-100" onClick={(e) => {
+            e.stopPropagation()
+          }}> {/*prevent closing when clicking inside modal*/}
+
+            {/*close button*/}
+            <button className="btn btn-sm btn-circle btn-ghost absolute top-3 right-3" onClick={() => {setEditingEntry(null); setIsCreating(false);}}>X</button>
+
+          <NewEntryForm addEntry={addEntry} updateEntry={updateEntry} editingEntry={editingEntry} onCancel={() => {setEditingEntry(null); setIsCreating(false);}} />
+          </div>
+        </div>
+      )}
       <Home entries={entries} deleteEntry={deleteEntry} onEdit={(entry) => {setEditingEntry(entry); setIsCreating(true);}} />
+
     </div>
   )
 }
