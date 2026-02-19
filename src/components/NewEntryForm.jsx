@@ -39,7 +39,7 @@ function NewEntryForm({ addEntry, updateEntry, editingEntry, onCancel}) {
         <div className="max-w-3xl max-auto px-4 py-6">
             <div className="card bg-base-100 shadow-md">
                 <div className="car-body">
-                    <h2 className="card-title text-lg sm:text-xl">{editingEntry ? "Edit Entry" : "Create New Entry"}</h2>
+                    <h2 className="card-title text-lg sm:text-xl py-4">{editingEntry ? "Edit Entry" : "Create New Entry"}</h2>
 
                     <form className="space-y-4" onSubmit={handleSubmit}>
                         <div className="form-control">
