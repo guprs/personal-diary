@@ -32,7 +32,9 @@ const Home = ({ entries, deleteEntry, onEdit }) => {
       {/* render filtered entries */}
       {filteredEntries.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          <DiaryEntry key={entry.id} entry={entry} deleteEntry={deleteEntry} onEdit={onEdit} />
+          {filteredEntries.map((entry) => (
+            <DiaryEntry key={entry.id} entry={entry} deleteEntry={deleteEntry} onEdit={onEdit} />
+          ))}
         </div>
       )}
     </div>
