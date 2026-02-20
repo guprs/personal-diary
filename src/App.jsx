@@ -75,7 +75,7 @@ function App() {
 
       <Header onNewClick={() => {setEditingEntry(null); setIsCreating(true)}} toggleTheme={toggleTheme} theme={theme} />
 
-      <main className="flex-grow">
+      <main className="grow">
         {isCreating && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => {setEditingEntry(null); setIsCreating(false)}}>
 
@@ -94,7 +94,7 @@ function App() {
 
         {entryToDelete && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setEntryToDelete(null)}>
-            <div className="bg-base-100 rounded-lg shadow-lx w-full max-w-md mx-4 p-6" onClick={(e) => e.stopPropagation()}>
+            <div className="bg-base-100 rounded-lg shadow-xl w-full max-w-md mx-4 p-6" onClick={(e) => e.stopPropagation()}>
               <h2 className="text-lg font-semibold">Confirm Deletion</h2>
               <p className="mt-3 text-sm opacity-80">Are you sure? This action cannot be undone.</p>
             </div>
@@ -109,6 +109,7 @@ function App() {
       </main>
 
       <Footer />
+
     </div>
   )
 }
